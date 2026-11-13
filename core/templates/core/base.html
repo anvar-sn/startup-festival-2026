@@ -1,0 +1,181 @@
+{% load static %}<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="STARTUP LOYIHALAR FESTIVALI – 2026. Abu Rayhon Beruniy nomidagi Urganch davlat akademik litseyi. Sening bitta g'oyang — Yangi O'zbekiston sari bir qadam!">
+  <title>{% block title %}STARTUP LOYIHALAR FESTIVALI – 2026 | Urganch Davlat Akademik Litseyi{% endblock %}</title>
+
+  <!-- Shriftlar va ikonlar -->
+  <link rel="icon" type="image/png" href="{% static 'core/images/favicon.png' %}">
+  <link rel="shortcut icon" href="{% static 'core/images/favicon.ico' %}">
+  <link rel="apple-touch-icon" href="{% static 'core/images/favicon.png' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  
+  <link href="{% static 'core/style.css' %}" rel="stylesheet">
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ASOSIY NAVIGATSIYA (Zamonaviy, ixcham va bir qatorli yengil shisha dizayn) -->
+  <header class="site-header">
+    <nav class="site-nav">
+      <div class="container nav-inner">
+        <!-- Brand Logo -->
+        <a class="nav-brand" href="{% url 'home' %}" title="STARTUP FESTIVALI – 2026 | Abu Rayhon Beruniy nomidagi litsey">
+          <img src="{% static 'core/images/urdu_litsey_logo.png' %}" alt="UrDU Akademik Litseyi Logo" class="brand-logo-img">
+          <div class="brand-text">
+            <span class="brand-title">STARTUP 2026</span>
+            <span class="brand-sub">Beruniy Litseyi</span>
+          </div>
+        </a>
+
+        <!-- Markaziy Menyu (Desktop: Qisqa va hech qachon 2 qatorga sinmaydigan) -->
+        <div class="nav-links">
+          <a class="nav-link" href="{% url 'home' %}#about">Nizom</a>
+          <a class="nav-link nav-link-highlight" href="{% url 'home' %}#pitch-rule">
+            <span class="nav-dot"></span>7 daqiqa
+          </a>
+          <a class="nav-link" href="{% url 'home' %}#schedule">Kun tartibi</a>
+          <a class="nav-link" href="{% url 'home' %}#domains">Yo‘nalishlar</a>
+          <a class="nav-link" href="{% url 'home' %}#criteria">Mezonlar</a>
+          <a class="nav-link" href="{% url 'home' %}#prizes">Sovrinlar</a>
+        </div>
+
+        <!-- O'ng harakatlar paneli -->
+        <div class="nav-actions">
+          <!-- Ariza holatini tekshirish -->
+          <a class="nav-action-pill" href="{% url 'status' %}" title="Ariza holatini tekshirish">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span class="action-pill-text">Holat</span>
+          </a>
+
+          <!-- Telegram Bot -->
+          {% if TELEGRAM_URL %}
+          <a class="nav-action-tg" href="{{ TELEGRAM_URL }}" target="_blank" rel="noopener" title="Telegram Bot (@UrDU_startup_bot)">
+            <i class="fa-brands fa-telegram"></i>
+            <span class="action-pill-text">Bot</span>
+          </a>
+          {% endif %}
+
+          <!-- Tun / Kun rejimi toggle -->
+          <button class="theme-toggle-btn" type="button" aria-label="Rejimni o'zgartirish" title="Tun / Kun rejimini almashtirish">
+            <i class="fa-solid fa-sun" style="color:#f59e0b"></i>
+          </button>
+
+          <!-- Asosiy Ariza Topshirish CTA (Bir qatorda) -->
+          <a class="btn-nav-cta" href="{% url 'register' %}">
+            <i class="fa-solid fa-bolt"></i>
+            <span>Ariza topshirish</span>
+          </a>
+
+          <!-- Mobil menyu tugmasi -->
+          <button class="nav-burger" type="button" aria-label="Menyu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MOBIL MENYU (To'liq ekran kengligidagi zamonaviy qorong'i drawer) -->
+    <div class="mobile-drawer" id="mobile-drawer">
+      <div class="container mobile-drawer-inner">
+        <a class="mobile-drawer-link" href="{% url 'home' %}#about"><i class="fa-solid fa-book-bookmark"></i> Nizom qoidalari</a>
+        <a class="mobile-drawer-link" href="{% url 'home' %}#pitch-rule"><i class="fa-solid fa-stopwatch" style="color:#10b981"></i> 7 daqiqa qoidasi</a>
+        <a class="mobile-drawer-link" href="{% url 'home' %}#schedule"><i class="fa-regular fa-clock"></i> Kun tartibi</a>
+        <a class="mobile-drawer-link" href="{% url 'home' %}#domains"><i class="fa-solid fa-cubes"></i> 7 ta yo‘nalish</a>
+        <a class="mobile-drawer-link" href="{% url 'home' %}#criteria"><i class="fa-solid fa-list-check"></i> 100 ballik mezonlar</a>
+        <a class="mobile-drawer-link" href="{% url 'home' %}#prizes"><i class="fa-solid fa-trophy" style="color:var(--accent-gold)"></i> Sovrinlar jamg‘armasi</a>
+        
+        <div class="mobile-drawer-divider"></div>
+        
+        <a class="mobile-drawer-link" href="{% url 'status' %}"><i class="fa-solid fa-magnifying-glass" style="color:var(--primary)"></i> Ariza holatini tekshirish</a>
+        {% if TELEGRAM_URL %}
+        <a class="mobile-drawer-link" href="{{ TELEGRAM_URL }}" target="_blank" rel="noopener"><i class="fa-brands fa-telegram" style="color:#229ed9"></i> Telegram Bot (@UrDU_startup_bot)</a>
+        {% endif %}
+        
+        <a class="btn btn-primary" href="{% url 'register' %}" style="width:100%;margin-top:0.75rem;padding:0.75rem;justify-content:center;font-size:0.95rem">
+          <i class="fa-solid fa-bolt"></i> Ariza topshirish
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- FLASH XABARLAR -->
+  {% if messages %}
+  <div class="container" style="margin-top:1.5rem">
+    {% for m in messages %}
+    <div style="background:rgba(6,182,212,0.12);border:1px solid var(--primary);border-radius:12px;padding:1rem 1.25rem;color:var(--text-main);display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+      <i class="fa-solid fa-circle-info" style="color:var(--primary);font-size:1.2rem"></i>
+      <div>{{ m }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- SAHIFA ASOSIY MAZMUNI -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div style="display:flex;align-items:center;gap:0.75rem">
+            <img src="{% static 'core/images/urdu_litsey_logo.png' %}" alt="UrDU Akademik Litseyi" class="brand-logo-img footer-logo-img">
+            <span style="font-family:'Orbitron',sans-serif;font-weight:800;font-size:1.15rem;color:var(--text-main)">STARTUP FESTIVALI – 2026</span>
+          </div>
+          <p style="margin-top:0.5rem;line-height:1.6">
+            Abu Rayhon Beruniy nomidagi Urganch davlat akademik litseyi o‘quvchilari uchun innovatsion g‘oyalar va startap loyihalar ko‘rik-tanlovi.
+          </p>
+          <p style="color:var(--accent-gold);font-weight:600;font-style:italic">
+            “Sening bitta g‘oyang — Yangi O‘zbekiston sari bir qadam!”
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-links-title">Tezkor havolalar</h4>
+          <ul class="footer-links-list">
+            <li><a class="footer-link" href="{% url 'home' %}#about">Festival konsepsiyasi</a></li>
+            <li><a class="footer-link" href="{% url 'home' %}#roadmap">Tadbir bosqichlari</a></li>
+            <li><a class="footer-link" href="{% url 'home' %}#domains">7 ta yo‘nalish</a></li>
+            <li><a class="footer-link" href="{% url 'home' %}#criteria">100 ballik mezonlar</a></li>
+            <li><a class="footer-link" href="{% url 'register' %}">Arizani ro‘yxatdan o‘tkazish</a></li>
+            <li><a class="footer-link" href="{% url 'status' %}">Ariza holatini tekshirish</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-links-title">Tashkiliy qo‘mita</h4>
+          <ul class="footer-links-list">
+            <li><i class="fa-solid fa-user-tie" style="margin-right:6px;color:var(--primary)"></i> Behruz: <a href="https://t.me/mrbekii" target="_blank" rel="noopener">@mrbekii</a></li>
+            <li><i class="fa-solid fa-user-tie" style="margin-right:6px;color:var(--primary)"></i> Anvar: <a href="https://t.me/anvar_sn" target="_blank" rel="noopener">@anvar_sn</a></li>
+            <li><i class="fa-solid fa-phone" style="margin-right:6px;color:var(--accent-emerald)"></i> <a href="tel:+998970916789">+998 97 091 67 89</a></li>
+            <li><i class="fa-brands fa-telegram" style="margin-right:6px;color:#229ed9"></i> <a href="https://t.me/UrDU_startup_bot" target="_blank" rel="noopener">@UrDU_startup_bot</a></li>
+            <li><i class="fa-solid fa-location-dot" style="margin-right:6px;color:var(--accent-gold)"></i> Urganch shahri, Akademik litsey binosi</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 Abu Rayhon Beruniy nomidagi Urganch davlat akademik litseyi. Barcha huquqlar himoyalangan.
+        </div>
+        <div style="display:flex;gap:1.5rem">
+          <a href="{% url 'home' %}#faq" class="footer-link">Savol-Javoblar</a>
+          <a href="{% url 'status' %}" class="footer-link">Tekshirish</a>
+          <a href="{% url 'export_excel' %}" class="footer-link" title="Faqat mas'ul xodimlar uchun"><i class="fa-solid fa-file-excel"></i> Excel hisobot</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{% static 'core/fx.js' %}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

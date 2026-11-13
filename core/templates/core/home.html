@@ -1,0 +1,497 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}STARTUP LOYIHALAR FESTIVALI – 2026 | Abu Rayhon Beruniy nomidagi Urganch davlat akademik litseyi{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero">
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+  
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <div class="hero-meta-badge">
+        <span class="pulse-indicator"></span>
+        <span>Abu Rayhon Beruniy nomidagi Urganch davlat akademik litseyi</span>
+      </div>
+
+      <h1 class="hero-title">
+        STARTUP LOYIHALAR<br>
+        <span class="hero-title-highlight">FESTIVALI – 2026</span>
+      </h1>
+
+      <p class="hero-slogan">
+        “Sening bitta g‘oyang — Yangi O‘zbekiston sari bir qadam!”<br>
+        <span style="font-size:0.95rem;color:var(--text-muted)">Litsey o‘quvchilarining mustaqil izlanishi, amaliy prototiplari va startap madaniyatini shakllantiruvchi rasmiy ko‘rik-tanlov.</span>
+      </p>
+
+      <!-- Nizomning 3 ta asosiy ustun teglari -->
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+        <span class="top-bar-badge" style="background:rgba(6,182,212,0.12);color:var(--primary);font-size:0.8rem;padding:0.3rem 0.75rem">
+          <i class="fa-solid fa-user-check"></i> Individual ishtirok
+        </span>
+        <span class="top-bar-badge" style="background:rgba(245,158,11,0.12);color:var(--accent-gold);font-size:0.8rem;padding:0.3rem 0.75rem">
+          <i class="fa-solid fa-stopwatch"></i> 7 daqiqalik pitch
+        </span>
+        <span class="top-bar-badge" style="background:rgba(16,185,129,0.12);color:var(--accent-emerald);font-size:0.8rem;padding:0.3rem 0.75rem">
+          <i class="fa-solid fa-award"></i> 100 ballik shkala
+        </span>
+      </div>
+
+      <!-- Real-time Countdown Box -->
+      <div class="countdown-box" data-countdown-date="{{ FESTIVAL_DATE|default:'2026-11-19T09:00:00+05:00' }}">
+        <div class="countdown-header">
+          <span><i class="fa-solid fa-clock" style="color:var(--primary);margin-right:6px"></i> Festival boshlanishiga qoldi:</span>
+          <span style="color:var(--accent-gold);font-weight:700">19-Noyabr, 2026 (Urganch)</span>
+        </div>
+        <div class="countdown-grid">
+          <div class="countdown-item">
+            <div class="countdown-value" id="cd-days">00</div>
+            <div class="countdown-label">Kun</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="cd-hours">00</div>
+            <div class="countdown-label">Soat</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="cd-mins">00</div>
+            <div class="countdown-label">Daqiqa</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="cd-secs">00</div>
+            <div class="countdown-label">Soniya</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="hero-actions">
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-rocket"></i> Ariza topshirish (Startap pasporti)
+        </a>
+        <a href="#pitch-rule" class="btn btn-outline btn-lg">
+          <i class="fa-solid fa-stopwatch"></i> 7 daqiqa qoidasi
+        </a>
+        {% if TELEGRAM_URL %}
+        <a href="{{ TELEGRAM_URL }}" target="_blank" rel="noopener" class="btn btn-tg btn-lg">
+          <i class="fa-brands fa-telegram"></i> Telegram Bot
+        </a>
+        {% endif %}
+      </div>
+
+      <!-- Hero Stats -->
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-number">7</span>
+          <span class="stat-text">Innovatsion yo‘nalish</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">7 min</span>
+          <span class="stat-text">Himoya vaqti (Pitch)</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">3 ta</span>
+          <span class="stat-text">Sovrinli o‘rin</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">100</span>
+          <span class="stat-text">Ballik shaffof baholash</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Visual: Astrolabe & Innovation Core -->
+    <div class="hero-visual">
+      <div class="astrolabe-wrapper">
+        <div class="astrolabe-ring ring-1"></div>
+        <div class="astrolabe-ring ring-2"></div>
+        <div class="astrolabe-ring ring-3"></div>
+
+        <div class="astrolabe-center">
+          <i class="fa-solid fa-atom astrolabe-icon"></i>
+          <span class="astrolabe-year">2026</span>
+          <span style="font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em">STARTUP</span>
+        </div>
+
+        <div class="floating-badge badge-pos-1">
+          <i class="fa-solid fa-brain"></i>
+          <span>Sun’iy intellekt (AI)</span>
+        </div>
+        <div class="floating-badge badge-pos-2">
+          <i class="fa-solid fa-code"></i>
+          <span>IT & Dasturlash</span>
+        </div>
+        <div class="floating-badge badge-pos-3">
+          <i class="fa-solid fa-robot"></i>
+          <span>Robototexnika & IoT</span>
+        </div>
+        <div class="floating-badge badge-pos-4">
+          <i class="fa-solid fa-seedling"></i>
+          <span>Yashil texnologiyalar</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NIZOMNING 3 TA QAT'IY QOIDASI -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-solid fa-scale-balanced"></i> Nizom talablari</span>
+      <h2 class="section-title">Ishtirok etishning 3 ta oltin qoidasi</h2>
+      <p class="section-desc">
+        Festival Abu Rayhon Beruniy nomidagi Urganch davlat akademik litseyining tasdiqlangan nizomi asosida o‘tkaziladi.
+      </p>
+    </div>
+
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon">
+          <i class="fa-solid fa-user-check"></i>
+        </div>
+        <h3 class="pillar-title">1. Individual mualliflik</h3>
+        <p class="pillar-desc">
+          Festival faqat individual shaklda tashkil etiladi. Har bir o‘quvchi o‘z nomidan qatnashadi, loyihasini mustaqil taqdim etadi va himoya qiladi. Jamoaviy ishtirok qabul qilinmaydi.
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon" style="background:rgba(245,158,11,0.12);color:var(--accent-gold)">
+          <i class="fa-solid fa-microchip"></i>
+        </div>
+        <h3 class="pillar-title">2. Prototip va MVP ustunligi</h3>
+        <p class="pillar-desc">
+          Nazariy g‘oyalar ham qabul qilinadi, ammo amaliy prototip, ishlaydigan dastur, elektron maket yoki sinov namoyishi mavjudligi baholashda katta ustunlik beradi (+15 ball).
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon" style="background:rgba(16,185,129,0.12);color:var(--accent-emerald)">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3 class="pillar-title">3. Mustaqillik & Plagiat taqiqi</h3>
+        <p class="pillar-desc">
+          Har bir o‘quvchi faqat bitta shaxsiy loyiha taqdim etadi. Loyiha boshqa shaxsning ishidan ko‘chirib olinmasligi, barcha manbalar va tayyor texnologiyalar ochiq ko‘rsatilishi shart.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NIZOM 8-BANDI: JONLI 7 DAQIQALIK PITCH SINOVI (PITCH SIMULATOR) -->
+<section id="pitch-rule" class="section" style="background:var(--bg-surface)">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-solid fa-stopwatch"></i> Nizomning 8-bandi</span>
+      <h2 class="section-title">7 daqiqalik loyiha himoyasi tartibi</h2>
+      <p class="section-desc">
+        Hakamlar hay’ati oldida loyihangizni qanday himoya qilasiz? Vaqt taqsimoti bilan tanishing va mashq qiling!
+      </p>
+    </div>
+
+    <div class="pitch-simulator-card">
+      <div class="pitch-sim-top">
+        <div>
+          <span class="pitch-badge"><i class="fa-solid fa-microphone"></i> Jonli Mashg‘ulot Taymeri</span>
+          <h3 style="font-size:1.4rem;font-weight:800;margin-top:0.4rem">7 daqiqalik Pitching formati:</h3>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <button id="pitch-timer-toggle" class="btn btn-primary" type="button">
+            <i class="fa-solid fa-play"></i> Mashqni boshlash (7 daqiqa)
+          </button>
+          <button id="pitch-timer-reset" class="btn btn-outline" type="button" title="Qayta o'rnatish">
+            <i class="fa-solid fa-arrow-rotate-left"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Jonli sekundomer tablosi -->
+      <div style="background:var(--bg-surface);border:1px solid var(--border-card);border-radius:16px;padding:1.5rem;text-align:center;margin-bottom:1.5rem">
+        <div id="pitch-timer-display" style="font-family:'Orbitron',monospace;font-size:3.5rem;font-weight:900;color:var(--primary);line-height:1">
+          07:00
+        </div>
+        <div id="pitch-current-phase" style="font-size:0.95rem;font-weight:700;margin-top:0.75rem">
+          Taymerni ishga tushiring va himoyani mashq qiling
+        </div>
+      </div>
+
+      <!-- 3 ta qat'iy vaqt bloki -->
+      <div class="pitch-blocks-grid">
+        <div class="pitch-block" style="border-top:3px solid var(--primary)">
+          <div class="pitch-block-time" style="color:var(--primary)">2 DAQIQA</div>
+          <div class="pitch-block-title">Tanishuv & Muammo</div>
+          <p class="pitch-block-desc">
+            Ishtirokchi va loyiha bilan tanishtirish. Qaysi dolzarb muammo hal etilayotgani va maqsadini tushuntirish.
+          </p>
+        </div>
+
+        <div class="pitch-block" style="border-top:3px solid var(--accent-emerald)">
+          <div class="pitch-block-time" style="color:var(--accent-emerald)">3 DAQIQA</div>
+          <div class="pitch-block-title">Prototip & MVP namoyishi</div>
+          <p class="pitch-block-desc">
+            Loyiha ishlash jarayoni, qurilma, dasturiy kod, amaliy natija yoki ishchi namunani jonli ko‘rsatish.
+          </p>
+        </div>
+
+        <div class="pitch-block" style="border-top:3px solid var(--accent-gold)">
+          <div class="pitch-block-time" style="color:var(--accent-gold)">2 DAQIQA</div>
+          <div class="pitch-block-title">Hakamlar savol-javobi</div>
+          <p class="pitch-block-desc">
+            Hakamlar hay’ati a’zolari tomonidan beriladigan texnik va amaliy savollarga mustaqil javob berish.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NIZOM 7-BANDI: FESTIVAL KUN TARTIBI (SCHEDULE) -->
+<section id="schedule" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-regular fa-calendar-days"></i> Nizomning 7-bandi</span>
+      <h2 class="section-title">Festival kunidagi namunaviy vaqt jadvali</h2>
+      <p class="section-desc">
+        19-noyabr kuni festival soat 09:00 dan 13:45 gacha quyidagi tartibda o‘tkaziladi.
+      </p>
+    </div>
+
+    <div class="schedule-table-wrap">
+      {% for item in schedule %}
+      <div class="schedule-row">
+        <div class="schedule-time">
+          <i class="{{ item.icon }}"></i>
+          <span>{{ item.time }}</span>
+        </div>
+        <div class="schedule-info">
+          <div class="schedule-title">{{ item.title }}</div>
+          <div class="schedule-desc">{{ item.desc }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- NIZOM 4-BANDI: 7 TA INNOVATSION YO'NALISH -->
+<section id="domains" class="section" style="background:var(--bg-surface)">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-solid fa-layer-group"></i> Nizomning 4-bandi</span>
+      <h2 class="section-title">7 ta rasmiy yo‘nalish</h2>
+      <p class="section-desc">
+        Loyiha pasportini to‘ldirishda quyidagi yo‘nalishlardan birini tanlaysiz.
+      </p>
+    </div>
+
+    <div class="domains-grid">
+      {% for cat in categories %}
+      <div class="domain-card">
+        <div class="domain-card-top">
+          <div class="domain-icon">
+            <i class="{{ cat.icon }}"></i>
+          </div>
+          <span class="domain-num">0{{ forloop.counter }}</span>
+        </div>
+        <h3 class="domain-title">{{ cat.name }}</h3>
+        <p class="domain-desc">{{ cat.description }}</p>
+        {% if cat.examples %}
+        <div class="domain-examples">
+          <strong>Misollar:</strong> {{ cat.examples }}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- NIZOM 9-BANDI: 100 BALLIK BAHOLASH KALKULYATORI -->
+<section id="criteria" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-solid fa-calculator"></i> Nizomning 9-bandi</span>
+      <h2 class="section-title">100 ballik baholash simulyatori</h2>
+      <p class="section-desc">
+        Slayderlarni surib, loyihangiz qancha ball to‘plashi mumkinligini hoziroq interaktiv hisoblab ko‘ring!
+      </p>
+    </div>
+
+    <div class="score-sim-card">
+      <div class="score-sliders-list">
+        {% for crit in criteria %}
+        <div class="score-slider-row">
+          <div class="score-slider-header">
+            <span>{{ forloop.counter }}. {{ crit.name }} (max: {{ crit.max }} ball)</span>
+            <span class="score-slider-val" id="val-{{ crit.id }}">{{ crit.max }} ball</span>
+          </div>
+          <input 
+            type="range" 
+            id="{{ crit.id }}" 
+            min="0" 
+            max="{{ crit.max }}" 
+            value="{{ crit.max }}" 
+            class="score-slider-input"
+          >
+          <div style="font-size:0.75rem;color:var(--text-muted)">{{ crit.desc }}</div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Hisoblangan umumiy natija -->
+      <div class="score-gauge-box">
+        <div class="score-gauge-label">Loyihaning taxminiy bali</div>
+        <div class="score-gauge-num" id="calc-total-score">100</div>
+        <div style="font-family:'Orbitron',sans-serif;font-size:1.1rem;color:var(--text-muted);font-weight:700">/ 100 BALL</div>
+        <div class="score-gauge-status" id="calc-status-badge">
+          🥇 Bosh sovrin / G'oliblik salohiyati!
+        </div>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:1.5rem;line-height:1.5">
+          Yakuniy ball hakamlar hay’ati tomonidan himoya jarayonida qo‘yiladi.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NIZOM 10-BANDI: SOVRINLAR VA TAQDIRLASH -->
+<section id="prizes" class="section" style="background:var(--bg-surface)">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-solid fa-trophy"></i> Nizomning 10-bandi</span>
+      <h2 class="section-title">G‘oliblarni taqdirlash va sovrinlar</h2>
+      <p class="section-desc">
+        Festival yakunida hakamlar hay’atining 100 ballik baholash natijalariga ko‘ra eng yuqori natija qayd etgan 3 ta eng kuchli startap loyihasi I, II va III o‘rinlar bilan taqdirlanadi.
+      </p>
+    </div>
+
+    <!-- Asosiy 3 ta o'rin -->
+    <div class="prizes-grid">
+      <!-- 2-o'rin -->
+      <div class="prize-card">
+        <div class="prize-trophy trophy-silver">
+          <i class="fa-solid fa-medal"></i>
+        </div>
+        <span class="prize-badge">II o‘rin</span>
+        <h3 class="prize-title">Kumush o‘rin</h3>
+        <div class="prize-secret-box">
+          <i class="fa-solid fa-lock" style="color:var(--text-muted)"></i>
+          <span class="prize-reward">Qimmatbaho maxsus sovg‘a</span>
+        </div>
+        <p class="prize-teaser"><i class="fa-regular fa-eye-slash"></i> Taqdirlash marosimida e’lon qilinadi</p>
+        <div class="prize-divider"></div>
+        <p class="prize-perks"><i class="fa-solid fa-certificate" style="color:#06b6d4;margin-right:6px"></i> 2-darajali Diplom va statuetka</p>
+        <p class="prize-perks"><i class="fa-solid fa-arrow-trend-up" style="color:#10b981;margin-right:6px"></i> Respublika tanlovlariga tavsiya</p>
+      </div>
+
+      <!-- 1-o'rin (Bosh sovrin) -->
+      <div class="prize-card gold-card">
+        <div class="prize-trophy trophy-gold">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+        <span class="prize-badge" style="background:rgba(245,158,11,0.2);color:#f59e0b;border-color:rgba(245,158,11,0.4)">Bosh sovrin</span>
+        <h3 class="prize-title" style="color:var(--accent-gold)">I o‘rin (Oltin)</h3>
+        <div class="prize-secret-box prize-secret-gold">
+          <i class="fa-solid fa-gift" style="color:var(--accent-gold)"></i>
+          <span class="prize-reward" style="color:var(--accent-gold);font-weight:800">Qimmatbaho Bosh Sovrin</span>
+        </div>
+        <p class="prize-teaser" style="color:var(--accent-gold)"><i class="fa-solid fa-sparkles"></i> Festival kuni tantanali sahnada ochiladi!</p>
+        <div class="prize-divider"></div>
+        <p class="prize-perks"><i class="fa-solid fa-certificate" style="color:var(--accent-gold);margin-right:6px"></i> 1-darajali Diplom va maxsus kubok</p>
+        <p class="prize-perks"><i class="fa-solid fa-rocket" style="color:var(--primary);margin-right:6px"></i> Loyihani amaliyotga tatbiq etish va inkubatsiya ko‘magi</p>
+      </div>
+
+      <!-- 3-o'rin -->
+      <div class="prize-card">
+        <div class="prize-trophy trophy-bronze">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <span class="prize-badge">III o‘rin</span>
+        <h3 class="prize-title">Bronza o‘rin</h3>
+        <div class="prize-secret-box">
+          <i class="fa-solid fa-lock" style="color:var(--text-muted)"></i>
+          <span class="prize-reward">Maxsus sovg‘alar to‘plami</span>
+        </div>
+        <p class="prize-teaser"><i class="fa-regular fa-eye-slash"></i> Taqdirlash marosimida e’lon qilinadi</p>
+        <div class="prize-divider"></div>
+        <p class="prize-perks"><i class="fa-solid fa-certificate" style="color:#f97316;margin-right:6px"></i> 3-darajali Diplom va sertifikat</p>
+        <p class="prize-perks"><i class="fa-solid fa-shield-halved" style="color:#06b6d4;margin-right:6px"></i> Homiylar va litsey esdalik sovg‘alari</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BO'LIMI -->
+<section class="section">
+  <div class="container">
+    <div class="cta-banner">
+      <h2 class="cta-title">Sening g‘oyang — Yangi O‘zbekiston sari bir qadam!</h2>
+      <p class="cta-desc">
+        Arizangizni hoziroq rasmiylashtiring, 7 daqiqalik himoyaga tayyorlaning va akademik litseyning eng yaxshi startapchisi bo‘ling!
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-rocket"></i> Hoziroq ro‘yxatdan o‘tish
+        </a>
+        {% if TELEGRAM_URL %}
+        <a href="{{ TELEGRAM_URL }}" target="_blank" rel="noopener" class="btn btn-tg btn-lg">
+          <i class="fa-brands fa-telegram"></i> @UrDU_startup_bot orqali kirish
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALOQA VA TASHKILIY QO'MITA -->
+<section id="contact" class="section" style="background:var(--bg-surface)">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag"><i class="fa-solid fa-headset"></i> Tashkiliy qo‘mita</span>
+      <h2 class="section-title">Biz bilan bog‘laning</h2>
+      <p class="section-desc">
+        Festival mas’ullari har qanday savolingiz bo‘yicha tezkor javob berishadi.
+      </p>
+    </div>
+
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-icon" style="background:rgba(34,158,217,0.12);color:#229ed9">
+          <i class="fa-brands fa-telegram"></i>
+        </div>
+        <h3 class="pillar-title">Mas’ul adminlar</h3>
+        <p class="pillar-desc">
+          • Behruz: <a href="https://t.me/mrbekii" target="_blank" rel="noopener" style="color:var(--primary);font-weight:700">@mrbekii</a><br>
+          • Anvar: <a href="https://t.me/anvar_sn" target="_blank" rel="noopener" style="color:var(--primary);font-weight:700">@anvar_sn</a>
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon" style="background:rgba(16,185,129,0.12);color:var(--accent-emerald)">
+          <i class="fa-solid fa-phone"></i>
+        </div>
+        <h3 class="pillar-title">Telefon aloqa</h3>
+        <p class="pillar-desc">
+          <a href="tel:+998970916789" style="font-size:1.15rem;font-weight:800;color:var(--text-main)">+998 97 091 67 89</a><br>
+          <span style="font-size:0.85rem;color:var(--text-muted)">Qo‘ng‘iroqlar uchun mas’ul vakil</span>
+        </p>
+      </div>
+
+      <div class="pillar-card">
+        <div class="pillar-icon" style="background:rgba(245,158,11,0.12);color:var(--accent-gold)">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <h3 class="pillar-title">Tashkilotchi manzil</h3>
+        <p class="pillar-desc">
+          Abu Rayhon Beruniy nomidagi Urganch davlat akademik litseyi binosi.<br>
+          <span style="font-size:0.85rem;color:var(--text-muted)">Xorazm viloyati, Urganch shahri.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

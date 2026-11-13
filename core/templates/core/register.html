@@ -1,0 +1,107 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Ro‘yxatdan o‘tish · STARTUP FESTIVALI – 2026{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title"><i class="fa-solid fa-file-pen" style="color:var(--primary);margin-right:10px"></i>Ishtirokchilar arizasi</h1>
+    <p class="page-subtitle">Loyihangiz pasportini to‘ldiring va festival saralash bosqichiga qo‘shiling</p>
+  </div>
+</div>
+
+<div class="container" style="max-width:960px">
+  <!-- Qadamlar indikatori -->
+  <div class="steps-nav">
+    <div class="step-nav-item active">
+      <span class="step-nav-num">1</span>
+      <span>Shaxsiy ma’lumot</span>
+    </div>
+    <div class="step-nav-item active">
+      <span class="step-nav-num">2</span>
+      <span>Loyiha pasporti</span>
+    </div>
+    <div class="step-nav-item active">
+      <span class="step-nav-num">3</span>
+      <span>Fayl va materiallar</span>
+    </div>
+    <div class="step-nav-item active">
+      <span class="step-nav-num">4</span>
+      <span>Tasdiqlash</span>
+    </div>
+  </div>
+
+  <form method="post" enctype="multipart/form-data" novalidate class="form-card">
+    {% csrf_token %}
+
+    <!-- 1-BO'LIM: O'quvchi ma'lumotlari -->
+    <div class="form-section">
+      <h3 class="form-section-title">
+        <span class="form-section-num">01.</span>
+        <span>O‘quvchining shaxsiy ma’lumotlari</span>
+      </h3>
+      <div class="form-grid">
+        {% include "core/_fields.html" with form=pf %}
+      </div>
+    </div>
+
+    <!-- 2-BO'LIM: Loyiha ma'lumotlari -->
+    <div class="form-section">
+      <h3 class="form-section-title">
+        <span class="form-section-num">02.</span>
+        <span>Startup loyihasi pasporti</span>
+      </h3>
+      <div class="form-grid">
+        {% include "core/_fields.html" with form=prf %}
+      </div>
+    </div>
+
+    <!-- 3-BO'LIM: Loyiha materiallari -->
+    <div class="form-section">
+      <h3 class="form-section-title">
+        <span class="form-section-num">03.</span>
+        <span>Loyiha taqdimoti va fayllari</span>
+      </h3>
+      <div class="form-grid">
+        {% include "core/_fields.html" with form=ff %}
+      </div>
+    </div>
+
+    <!-- 4-BO'LIM: Tasdiqlash va Anti-spam -->
+    <div class="form-section">
+      <h3 class="form-section-title">
+        <span class="form-section-num">04.</span>
+        <span>Tasdiqlash va qoidalar</span>
+      </h3>
+      
+      <div class="form-group" style="margin-bottom:1.5rem">
+        <label style="display:flex;align-items:flex-start;gap:0.75rem;cursor:pointer;font-size:0.92rem;line-height:1.5">
+          {{ sf.consent }}
+          <span>{{ sf.consent.label }}</span>
+        </label>
+        {% for e in sf.consent.errors %}
+        <div class="form-error"><i class="fa-solid fa-circle-exclamation" style="margin-right:4px"></i>{{ e }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group" style="max-width:320px">
+        <label class="form-label" for="{{ sf.captcha.id_for_label }}">{{ sf.captcha.label }} <span class="req">*</span></label>
+        {{ sf.captcha }}
+        {% for e in sf.captcha.errors %}
+        <div class="form-error"><i class="fa-solid fa-circle-exclamation" style="margin-right:4px"></i>{{ e }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Honeypot -->
+      <div class="hp-field">{{ sf.website }}</div>
+    </div>
+
+    <div style="margin-top:2rem;text-align:right">
+      <button class="btn btn-primary btn-lg" type="submit" style="width:100%;max-width:320px">
+        <i class="fa-solid fa-paper-plane"></i> Arizani rasman yuborish
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

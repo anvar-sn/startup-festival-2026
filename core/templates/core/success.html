@@ -1,0 +1,89 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Muvaffaqiyatli yuborildi · STARTUP FESTIVALI – 2026{% endblock %}
+
+{% block content %}
+<canvas id="confetti-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:9999"></canvas>
+
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title"><i class="fa-solid fa-circle-check" style="color:var(--accent-emerald);margin-right:10px"></i>Ariza qabul qilindi!</h1>
+    <p class="page-subtitle">Loyihangiz festival ma’lumotlar bazasiga muvaffaqiyatli kiritildi</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="ticket-wrapper">
+    <div class="success-icon-badge">
+      <i class="fa-solid fa-check"></i>
+    </div>
+
+    <h2 style="font-size:1.6rem;font-weight:800;margin-bottom:0.4rem">Tabriklaymiz!</h2>
+    <p style="color:var(--text-secondary);font-size:0.95rem">
+      Arizangiz qabul qilindi va ekspertlarimiz tomonidan ko‘rib chiqish navbatiga qo‘yildi.
+    </p>
+
+    <!-- Ariza raqami chipi -->
+    <div style="margin:1.5rem 0">
+      <div style="font-size:0.85rem;color:var(--text-muted);text-transform:uppercase;font-weight:600">Sizning ariza raqamingiz:</div>
+      <div class="app-number-chip" id="copy-app-num" onclick="window.copyToClipboard('{{ app.number }}', this)" title="Bosib nusxa oling">
+        <span>{{ app.number }}</span>
+        <i class="fa-regular fa-copy" style="font-size:1.1rem;color:var(--primary)"></i>
+      </div>
+      <div style="font-size:0.8rem;color:var(--text-muted)">Ushbu raqamni saqlab qo‘ying (ustiga bosing)</div>
+    </div>
+
+    <!-- QR Kod -->
+    <div style="background:var(--bg-surface);border:1px solid var(--border-card);border-radius:16px;padding:1.5rem;max-width:320px;margin:1.5rem auto">
+      <img src="{% url 'qr' app.number %}" alt="QR Kod" class="qr-code-img">
+      <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem">
+        QR-kod orqali istalgan vaqtda ariza holatini smartfonda tekshirishingiz mumkin.
+      </div>
+    </div>
+
+    <!-- Loyiha qisqacha rezyumesi -->
+    <div style="text-align:left;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:14px;padding:1.25rem 1.5rem;margin:1.5rem 0;font-size:0.9rem">
+      <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
+        <span style="color:var(--text-muted)">Ishtirokchi:</span>
+        <strong>{{ app.participant.full_name }}</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
+        <span style="color:var(--text-muted)">Guruh:</span>
+        <span>{{ app.participant.group }}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
+        <span style="color:var(--text-muted)">Loyiha:</span>
+        <strong style="color:var(--primary)">{{ app.project.title }}</strong>
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <span style="color:var(--text-muted)">Yo‘nalish:</span>
+        <span>{{ app.project.category.name }}</span>
+      </div>
+    </div>
+
+    <!-- Amallar tugmalari -->
+    <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;margin-top:2rem">
+      <button class="btn btn-outline" type="button" onclick="window.print()">
+        <i class="fa-solid fa-print"></i> Chop etish (PDF)
+      </button>
+
+      <a class="btn btn-primary" href="{% url 'status' %}?number={{ app.number }}">
+        <i class="fa-solid fa-magnifying-glass"></i> Ariza holati
+      </a>
+
+      {% if TELEGRAM_URL %}
+      <a class="btn btn-tg" href="{{ TELEGRAM_URL }}" target="_blank" rel="noopener">
+        <i class="fa-brands fa-telegram"></i> Telegram Botda kuzatish
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  window.CONFETTI_ACTIVE = true;
+</script>
+{% endblock %}

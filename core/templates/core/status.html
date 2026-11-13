@@ -1,0 +1,187 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Ariza holati · STARTUP FESTIVALI – 2026{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-title"><i class="fa-solid fa-magnifying-glass" style="color:var(--primary);margin-right:10px"></i>Ariza holatini tekshirish</h1>
+    <p class="page-subtitle">Arizangiz raqamini kiriting va uning joriy holatini bilib oling</p>
+  </div>
+</div>
+
+<div class="container" style="max-width:760px;margin-bottom:4rem">
+  <!-- Qidiruv formasi -->
+  <div class="form-card" style="padding:1.75rem;margin-bottom:2rem">
+    <form method="get" action="{% url 'status' %}" style="display:flex;gap:0.75rem;flex-wrap:wrap">
+      <div style="flex:1;min-width:240px">
+        <input 
+          type="text" 
+          name="number" 
+          value="{{ number }}" 
+          placeholder="Masalan: SLF26-00001" 
+          required 
+          class="form-control" 
+          style="font-size:1.1rem;text-transform:uppercase;font-family:'Orbitron',monospace;font-weight:600"
+        >
+      </div>
+      <button class="btn btn-primary" type="submit" style="padding:0.75rem 1.75rem">
+        <i class="fa-solid fa-magnifying-glass"></i> Tekshirish
+      </button>
+    </form>
+  </div>
+
+  {% if app %}
+  <!-- Ariza Natijalari Kartasi -->
+  <div class="ticket-wrapper" style="text-align:left;padding:2.5rem 2rem">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;border-bottom:1px solid var(--border-subtle);padding-bottom:1.5rem">
+      <div>
+        <div style="font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;font-weight:600">Ariza pasporti</div>
+        <div style="font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:800;color:var(--primary);margin-top:0.2rem">
+          {{ app.number }}
+        </div>
+      </div>
+      <div style="text-align:right">
+        <!-- Status Badji -->
+        {% if app.status == 'approved' %}
+        <span style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.45rem 1.1rem;border-radius:9999px;font-size:0.88rem;font-weight:700;background:rgba(16,185,129,0.15);color:var(--accent-emerald);border:1px solid rgba(16,185,129,0.3)">
+          <i class="fa-solid fa-circle-check"></i> Tasdiqlangan
+        </span>
+        {% elif app.status == 'rejected' %}
+        <span style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.45rem 1.1rem;border-radius:9999px;font-size:0.88rem;font-weight:700;background:rgba(239,68,68,0.15);color:var(--danger);border:1px solid rgba(239,68,68,0.3)">
+          <i class="fa-solid fa-circle-xmark"></i> Rad etilgan
+        </span>
+        {% elif app.status == 'review' %}
+        <span style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.45rem 1.1rem;border-radius:9999px;font-size:0.88rem;font-weight:700;background:rgba(245,158,11,0.15);color:var(--accent-gold);border:1px solid rgba(245,158,11,0.3)">
+          <i class="fa-solid fa-hourglass-half"></i> Ko‘rib chiqilmoqda
+        </span>
+        {% else %}
+        <span style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.45rem 1.1rem;border-radius:9999px;font-size:0.88rem;font-weight:700;background:rgba(6,182,212,0.15);color:var(--primary);border:1px solid rgba(6,182,212,0.3)">
+          <i class="fa-solid fa-paper-plane"></i> Yangi yuborilgan
+        </span>
+        {% endif %}
+        <div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.35rem">
+          Yuborilgan: {{ app.created_at|date:"d.m.Y H:i" }}
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Bosqichli Status Treker -->
+    <div class="status-tracker">
+      <div class="status-step completed">
+        <div class="status-step-dot"><i class="fa-solid fa-check"></i></div>
+        <span>1. Yuborildi</span>
+      </div>
+
+      <div class="status-step {% if app.status == 'review' %}current{% elif app.status in 'approved,rejected' %}completed{% endif %}">
+        <div class="status-step-dot">
+          {% if app.status in 'approved,rejected' %}<i class="fa-solid fa-check"></i>{% else %}2{% endif %}
+        </div>
+        <span>2. Saralash</span>
+      </div>
+
+      <div class="status-step {% if app.status in 'approved,rejected' %}completed{% endif %}">
+        <div class="status-step-dot">
+          {% if app.status in 'approved,rejected' %}<i class="fa-solid fa-check"></i>{% else %}3{% endif %}
+        </div>
+        <span>3. Ekspertiza</span>
+      </div>
+
+      <div class="status-step {% if app.status == 'approved' %}completed{% elif app.status == 'rejected' %}rejected-step{% endif %}">
+        <div class="status-step-dot">
+          {% if app.status == 'approved' %}<i class="fa-solid fa-trophy"></i>
+          {% elif app.status == 'rejected' %}<i class="fa-solid fa-xmark"></i>
+          {% else %}4{% endif %}
+        </div>
+        <span>
+          {% if app.status == 'approved' %}Tasdiqlandi
+          {% elif app.status == 'rejected' %}Rad etildi
+          {% else %}Xulosa{% endif %}
+        </span>
+      </div>
+    </div>
+
+    <!-- Hakamlar izohi (agar bo'lsa) -->
+    {% if app.admin_notes %}
+    <div style="background:rgba(6,182,212,0.08);border-left:3px solid var(--primary);border-radius:8px;padding:1rem 1.25rem;margin:1.5rem 0">
+      <div style="font-size:0.82rem;font-weight:700;color:var(--primary);text-transform:uppercase;margin-bottom:0.25rem">
+        <i class="fa-solid fa-comment-dots"></i> Hakamlar / Tashkilotchi xulosasi:
+      </div>
+      <p style="font-size:0.92rem;color:var(--text-main);line-height:1.6">{{ app.admin_notes }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Ishtirokchi ma'lumotlari -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:1rem;margin:1.5rem 0;background:var(--bg-surface);padding:1.25rem;border-radius:12px;border:1px solid var(--border-subtle)">
+      <div>
+        <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase">Ishtirokchi</div>
+        <div style="font-weight:700;font-size:0.95rem;margin-top:2px">{{ app.participant.full_name }}</div>
+      </div>
+      <div>
+        <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase">Guruh</div>
+        <div style="font-weight:600;font-size:0.95rem;margin-top:2px">{{ app.participant.group }}</div>
+      </div>
+      <div>
+        <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase">Ta’lim yo‘nalishi</div>
+        <div style="font-weight:600;font-size:0.95rem;margin-top:2px">{{ app.participant.study_direction }}</div>
+      </div>
+    </div>
+
+    <!-- Loyiha ma'lumotlari -->
+    <div style="background:var(--bg-surface);padding:1.5rem;border-radius:14px;border:1px solid var(--border-subtle);margin-bottom:1.5rem">
+      <div style="font-size:0.8rem;color:var(--primary);font-weight:700;text-transform:uppercase">
+        <i class="fa-solid fa-microchip"></i> {{ app.project.category.name }}
+      </div>
+      <h3 style="font-size:1.3rem;font-weight:800;margin:0.4rem 0 0.85rem">{{ app.project.title }}</h3>
+      <p style="font-size:0.92rem;color:var(--text-secondary);line-height:1.6">{{ app.project.summary }}</p>
+      
+      {% if app.project.link %}
+      <div style="margin-top:1rem;font-size:0.88rem">
+        <strong>Loyiha havolasi:</strong> 
+        <a href="{{ app.project.link }}" target="_blank" rel="noopener" style="color:var(--primary);text-decoration:underline">
+          {{ app.project.link }}
+        </a>
+      </div>
+      {% endif %}
+
+      <!-- Fayllar -->
+      <div style="margin-top:1.25rem;border-top:1px solid var(--border-subtle);padding-top:1rem">
+        <div style="font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;font-weight:600;margin-bottom:0.5rem">
+          Biriktirilgan materiallar:
+        </div>
+        <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+          {% for f in app.project.files.all %}
+          <span style="display:inline-flex;align-items:center;gap:0.4rem;background:var(--bg-card);border:1px solid var(--border-card);padding:0.35rem 0.75rem;border-radius:8px;font-size:0.82rem">
+            {% if f.kind == 'presentation' %}<i class="fa-solid fa-file-powerpoint" style="color:#ef4444"></i>
+            {% elif f.kind == 'document' %}<i class="fa-solid fa-file-word" style="color:#3b82f6"></i>
+            {% elif f.kind == 'image' %}<i class="fa-solid fa-image" style="color:#10b981"></i>
+            {% elif f.kind == 'video' %}<i class="fa-solid fa-video" style="color:#a855f7"></i>
+            {% else %}<i class="fa-solid fa-paperclip"></i>{% endif %}
+            {{ f.get_kind_display }}
+          </span>
+          {% empty %}
+          <span style="color:var(--text-muted);font-size:0.85rem">Fayllar biriktirilmagan</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- QR Kod va Chop etish -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--border-subtle);padding-top:1.5rem">
+      <div style="display:flex;align-items:center;gap:1rem">
+        <img src="{% url 'qr' app.number %}" alt="QR Kod" style="width:70px;height:70px;background:#fff;padding:4px;border-radius:8px">
+        <div style="font-size:0.82rem;color:var(--text-muted)">
+          Ushbu sahifani smartfonga saqlash uchun QR-kodni skanerlang.
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-outline" type="button" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> Chop etish
+        </button>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

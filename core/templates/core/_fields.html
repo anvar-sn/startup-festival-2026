@@ -1,0 +1,14 @@
+{% for f in form %}
+<div class="form-group {% if f.field.widget.input_type == 'textarea' or f.name == 'summary' or f.name == 'problem' or f.name == 'goal' or f.name == 'novelty' or f.name == 'mechanism' or f.name == 'future' or f.name == 'link' or f.name == 'presentation' or f.name == 'document' or f.name == 'images' or f.name == 'video' %}full{% endif %}{% if f.name == 'website' %} hp-field{% endif %}">
+  <label class="form-label" for="{{ f.id_for_label }}">
+    {{ f.label }}{% if f.field.required %}<span class="req">*</span>{% endif %}
+  </label>
+  {% if f.help_text %}
+  <span class="form-help">{{ f.help_text }}</span>
+  {% endif %}
+  {{ f }}
+  {% for e in f.errors %}
+  <div class="form-error"><i class="fa-solid fa-circle-exclamation" style="margin-right:4px"></i>{{ e }}</div>
+  {% endfor %}
+</div>
+{% endfor %}

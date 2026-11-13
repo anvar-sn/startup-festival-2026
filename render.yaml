@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: startup-festival-2026
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: "./build.sh"
+    startCommand: "./start.sh"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DEBUG
+        value: "0"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DB_ENGINE
+        value: sqlite
+      - key: TELEGRAM_BOT_TOKEN
+        value: 9260594956:AAH5Ny0ByaH1r8xx_oTGaIaKoRSb7ZXmcrM
+      - key: TELEGRAM_ADMIN_IDS
+        value: "7647505439"
+      - key: TELEGRAM_ADMIN_USERNAMES
+        value: "mrbekii,anvar_sn"
