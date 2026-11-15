@@ -15,6 +15,8 @@ services:
         generateValue: true
       - key: DB_ENGINE
         value: sqlite
+      - key: SITE_URL
+        value: https://startup-festival-2026.onrender.com
       - key: TELEGRAM_BOT_TOKEN
         value: 9260594956:AAH5Ny0ByaH1r8xx_oTGaIaKoRSb7ZXmcrM
       - key: TELEGRAM_ADMIN_IDS

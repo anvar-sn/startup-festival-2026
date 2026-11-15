@@ -360,7 +360,7 @@ def get_main_keyboard(is_admin_user: bool = False) -> ReplyKeyboardMarkup:
 
 
 def get_admin_inline_keyboard() -> InlineKeyboardMarkup:
-    site_url = getattr(settings, "SITE_URL", "http://localhost:8000")
+    site_url = getattr(settings, "SITE_URL", "https://startup-festival-2026.onrender.com")
     rows = [
         [
             InlineKeyboardButton(text="📊 Statistika", callback_data="admin:stats"),
@@ -436,7 +436,7 @@ class Command(BaseCommand):
                 except Exception:
                     pass
 
-            site_url = getattr(settings, "SITE_URL", "http://localhost:8000").rstrip("/")
+            site_url = getattr(settings, "SITE_URL", "https://startup-festival-2026.onrender.com").rstrip("/")
             reg_url = f"{site_url}{reverse('register')}"
 
             status_note = (
@@ -645,7 +645,7 @@ class Command(BaseCommand):
                 new_title = status_titles.get(action, action.upper())
 
                 if ok:
-                    site_url = getattr(settings, "SITE_URL", "http://localhost:8000").rstrip("/")
+                    site_url = getattr(settings, "SITE_URL", "https://startup-festival-2026.onrender.com").rstrip("/")
                     updated_rows = [
                         [
                             InlineKeyboardButton(text="✅ Tasdiqlash", callback_data=f"app:approved:{app_id}"),
@@ -874,7 +874,7 @@ class Command(BaseCommand):
             if app.admin_notes:
                 resp_text += f"\n💬 <b>Hakamlar izohi:</b> <i>{app.admin_notes}</i>\n"
 
-            site_url = getattr(settings, "SITE_URL", "http://localhost:8000").rstrip("/")
+            site_url = getattr(settings, "SITE_URL", "https://startup-festival-2026.onrender.com").rstrip("/")
             status_full_url = f"{site_url}{reverse('status')}?number={app.number}"
             if is_valid_public_url(status_full_url):
                 kb = InlineKeyboardMarkup(inline_keyboard=[
@@ -903,7 +903,7 @@ class Command(BaseCommand):
         # ---------------- SAYTDA ARIZA TOPSHIRISH (WEB) ----------------
         @router.message(F.text.in_({"🌐 Saytda ariza topshirish", "🚀 Ariza topshirish (Web)", "/web"}))
         async def handle_apply_web(message: Message):
-            site_url = getattr(settings, "SITE_URL", "http://localhost:8000").rstrip("/")
+            site_url = getattr(settings, "SITE_URL", "https://startup-festival-2026.onrender.com").rstrip("/")
             reg_url = f"{site_url}{reverse('register')}"
             kb_rows = [
                 [InlineKeyboardButton(text="📝 Botda to'ldirish", callback_data="start_apply_now")]
@@ -1280,7 +1280,7 @@ class Command(BaseCommand):
                 )
                 return
 
-            site_url = getattr(settings, "SITE_URL", "http://localhost:8000").rstrip("/")
+            site_url = getattr(settings, "SITE_URL", "https://startup-festival-2026.onrender.com").rstrip("/")
             status_url = f"{site_url}{reverse('status')}?number={app_number}"
 
             success_text = (

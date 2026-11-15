@@ -138,7 +138,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 75 * 1024 * 1024
 FILE_UPLOAD_MAX_MEMORY_SIZE = 75 * 1024 * 1024
 DATA_UPLOAD_MAX_NUMBER_FILES = 20
 
-SITE_URL = env("SITE_URL", "http://localhost:8000")
+SITE_URL = env("SITE_URL", "https://startup-festival-2026.onrender.com")
 FESTIVAL_DATE = env("FESTIVAL_DATE", "2026-11-19T09:00:00+05:00")
 TELEGRAM_URL = env("TELEGRAM_URL", "https://t.me/UrDU_startup_bot")
 
