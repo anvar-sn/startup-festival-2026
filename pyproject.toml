@@ -1,0 +1,18 @@
+[project]
+name = "startup-festival-2026"
+version = "1.0.0"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "Django>=5.0,<5.3",
+    "psycopg2-binary>=2.9",
+    "Pillow>=10.0",
+    "qrcode>=7.4",
+    "gunicorn>=21.2",
+    "whitenoise>=6.6",
+    "openpyxl>=3.1.0",
+    "aiogram>=3.13.0",
+    "requests>=2.31.0",
+]
+
+[tool.vercel]
+entrypoint = "config.wsgi:application"

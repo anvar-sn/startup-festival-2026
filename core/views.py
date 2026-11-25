@@ -1,17 +1,22 @@
+import hmac
 import io
+import json
 import logging
 import qrcode
+from asgiref.sync import async_to_sync
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from django.core.management import call_command
 from django.db import transaction
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from .excel import generate_applications_excel
 from .forms import FilesForm, ParticipantForm, ProjectForm, SecurityForm
-from .models import Application, AuditLog, Category, ProjectFile
+from .models import Application, AuditLog, Category, FestivalSetting, ProjectFile
 from .telegram import notify_admins_new_application
 
 logger = logging.getLogger(__name__)
@@ -211,3 +216,101 @@ def export_excel_view(request):
     )
     response["Content-Disposition"] = 'attachment; filename="Startup_Festival_2026_Arizalar.xlsx"'
     return response
+
+
+@csrf_exempt
+def health_check(request):
+    """Yengil sog'liq tekshiruvi (Vercel va monitoring uchun)."""
+    is_vercel = bool(getattr(settings, "IS_VERCEL", False))
+    festival_date = getattr(settings, "FESTIVAL_DATE", "")
+    db_ok = True
+    try:
+        cfg = FestivalSetting.get_solo()
+        festival_date = cfg.display_full()
+    except Exception:
+        db_ok = False
+    return JsonResponse(
+        {
+            "status": "ok",
+            "app": "Startup Festivali 2026",
+            "platform": "vercel" if is_vercel else "server",
+            "db_ok": db_ok,
+            "festival_date": festival_date,
+        }
+    )
+
+
+@csrf_exempt
+def telegram_webhook(request):
+    """Telegram Bot Webhook qabul qiluvchi endpoint (Vercel serverless uchun)."""
+    if request.method != "POST":
+        return JsonResponse({"ok": False, "detail": "Method not allowed"}, status=405)
+
+    from core.bot_engine import get_webhook_secret, process_webhook_update
+
+    expected = get_webhook_secret()
+    provided = request.headers.get("X-Telegram-Bot-Api-Secret-Token", "")
+    if not provided or not hmac.compare_digest(provided, expected):
+        return JsonResponse({"ok": False, "detail": "Invalid webhook secret"}, status=403)
+
+    try:
+        payload = json.loads(request.body.decode("utf-8"))
+    except Exception:
+        return JsonResponse({"ok": True})
+
+    try:
+        async_to_sync(process_webhook_update)(payload)
+    except Exception:
+        logger.exception("Telegram webhook update qayta ishlashda xatolik")
+    return JsonResponse({"ok": True})
+
+
+@csrf_exempt
+def setup_telegram_webhook_view(request):
+    """Bir marta bosishda Neon DB migratsiyasini yuritadi va Telegram Webhook'ni ulaydi."""
+    expected_key = getattr(settings, "SECRET_KEY", "")
+    provided_key = request.GET.get("key") or request.headers.get("X-Setup-Key", "")
+    if not provided_key or not expected_key or not hmac.compare_digest(provided_key, expected_key):
+        return JsonResponse({"ok": False, "detail": "Invalid setup key"}, status=403)
+
+    migrated = False
+    migrate_err = None
+    try:
+        call_command("migrate", "--noinput", verbosity=0)
+        migrated = True
+    except Exception as exc:
+        migrate_err = str(exc)
+        logger.exception("Migratsiyada xatolik")
+
+    host = request.headers.get("x-forwarded-host") or request.get_host()
+    if host and "localhost" not in host.lower() and "127.0.0.1" not in host:
+        webhook_url = f"https://{host}/telegram/webhook/"
+    else:
+        site_url = getattr(settings, "SITE_URL", "").rstrip("/")
+        webhook_url = f"{site_url}/telegram/webhook/"
+
+    from core.bot_engine import setup_telegram_webhook
+
+    tg_result = {}
+    try:
+        tg_result = async_to_sync(setup_telegram_webhook)(webhook_url)
+    except Exception as exc:
+        tg_result = {"ok": False, "error": str(exc)}
+
+    festival_date = ""
+    try:
+        festival_date = FestivalSetting.get_solo().display_full()
+    except Exception:
+        pass
+
+    return JsonResponse(
+        {
+            "ok": bool(tg_result.get("ok")),
+            "migrated": migrated,
+            "migrate_error": migrate_err,
+            "webhook_url": webhook_url,
+            "festival_date": festival_date,
+            "platform": "vercel" if getattr(settings, "IS_VERCEL", False) else "server",
+            "telegram": tg_result,
+        }
+    )

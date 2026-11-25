@@ -12,4 +12,11 @@ urlpatterns = [
     path("status/", views.status),
     path("qr/<str:number>.png", views.qr, name="qr"),
     path("export-excel/", views.export_excel_view, name="export_excel"),
+    path("health/", views.health_check, name="health"),
+    path("health", views.health_check),
+    path("ping/", views.health_check),
+    path("telegram/webhook/", views.telegram_webhook, name="telegram_webhook"),
+    path("telegram/webhook", views.telegram_webhook),
+    path("telegram/setup-webhook/", views.setup_telegram_webhook_view, name="setup_telegram_webhook"),
+    path("telegram/setup-webhook", views.setup_telegram_webhook_view),
 ]

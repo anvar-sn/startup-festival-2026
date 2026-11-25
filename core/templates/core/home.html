@@ -44,7 +44,7 @@
       <div class="countdown-box" data-countdown-date="{{ FESTIVAL_DATE|default:'2026-11-19T09:00:00+05:00' }}">
         <div class="countdown-header">
           <span><i class="fa-solid fa-clock" style="color:var(--primary);margin-right:6px"></i> Festival boshlanishiga qoldi:</span>
-          <span style="color:var(--accent-gold);font-weight:700">19-Noyabr, 2026 (Urganch)</span>
+          <span style="color:var(--accent-gold);font-weight:700">{{ FESTIVAL_DATE_DISPLAY|default:'19-Noyabr, 2026' }} ({{ FESTIVAL_LOCATION|default:'Urganch' }})</span>
         </div>
         <div class="countdown-grid">
           <div class="countdown-item">
@@ -255,7 +255,7 @@
       <span class="section-tag"><i class="fa-regular fa-calendar-days"></i> Nizomning 7-bandi</span>
       <h2 class="section-title">Festival kunidagi namunaviy vaqt jadvali</h2>
       <p class="section-desc">
-        19-noyabr kuni festival soat 09:00 dan 13:45 gacha quyidagi tartibda o‘tkaziladi.
+        {{ FESTIVAL_DAY_MONTH|default:'19-noyabr'|capfirst }} kuni festival soat {{ FESTIVAL_TIME|default:'09:00' }} dan 13:45 gacha quyidagi tartibda o‘tkaziladi.
       </p>
     </div>
 

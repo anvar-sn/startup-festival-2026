@@ -5,12 +5,26 @@ from .models import (
     Application,
     AuditLog,
     Category,
+    FestivalSetting,
     Participant,
     Project,
     ProjectFile,
     TelegramAdmin,
     TelegramSubscriber,
 )
+
+
+@admin.register(FestivalSetting)
+class FestivalSettingAdmin(admin.ModelAdmin):
+    list_display = ("display_full", "location", "updated_by", "updated_at")
+    fields = ("festival_date", "location", "updated_by", "updated_at")
+    readonly_fields = ("updated_at",)
+
+    def has_add_permission(self, request):
+        return not FestivalSetting.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class FileInline(admin.TabularInline):

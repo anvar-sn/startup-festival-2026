@@ -1,0 +1,14 @@
+.venv
+.git
+__pycache__
+*.pyc
+db.sqlite3
+.env
+Dockerfile
+docker-compose.yml
+render.yaml
+Procfile
+build.sh
+start.sh
+README.md
+media

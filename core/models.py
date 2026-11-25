@@ -1,7 +1,113 @@
+import datetime
 import os
 import uuid
+from zoneinfo import ZoneInfo
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
+
+
+UZ_MONTHS = {
+    1: "Yanvar",
+    2: "Fevral",
+    3: "Mart",
+    4: "Aprel",
+    5: "May",
+    6: "Iyun",
+    7: "Iyul",
+    8: "Avgust",
+    9: "Sentabr",
+    10: "Oktabr",
+    11: "Noyabr",
+    12: "Dekabr",
+}
+
+
+def get_tashkent_tz():
+    try:
+        return ZoneInfo(getattr(settings, "TIME_ZONE", "Asia/Tashkent"))
+    except Exception:
+        return datetime.timezone(datetime.timedelta(hours=5))
+
+
+def default_festival_date():
+    raw = getattr(settings, "FESTIVAL_DATE", "2026-11-19T09:00:00+05:00")
+    try:
+        dt = datetime.datetime.fromisoformat(raw)
+        if timezone.is_naive(dt):
+            dt = dt.replace(tzinfo=get_tashkent_tz())
+        return dt
+    except Exception:
+        return datetime.datetime(2026, 11, 19, 9, 0, tzinfo=get_tashkent_tz())
+
+
+class FestivalSetting(models.Model):
+    """Festival sanasi va umumiy sozlamalari (bot admin paneli va sayt uchun yagona manba)."""
+
+    festival_date = models.DateTimeField("Festival sanasi va vaqti", default=default_festival_date)
+    location = models.CharField("O'tkazilish joyi", max_length=160, default="Urganch")
+    updated_by = models.CharField("Oxirgi o'zgartirgan", max_length=128, blank=True, default="")
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Festival sozlamasi"
+        verbose_name_plural = "Festival sozlamalari"
+
+    @classmethod
+    def get_solo(cls) -> "FestivalSetting":
+        obj, _ = cls.objects.get_or_create(
+            pk=1,
+            defaults={
+                "festival_date": default_festival_date(),
+                "location": "Urganch",
+            },
+        )
+        return obj
+
+    def local_dt(self) -> datetime.datetime:
+        dt = self.festival_date
+        tz = get_tashkent_tz()
+        if timezone.is_naive(dt):
+            return dt.replace(tzinfo=tz)
+        return dt.astimezone(tz)
+
+    def iso_date(self) -> str:
+        return self.local_dt().isoformat()
+
+    def display_date(self) -> str:
+        dt = self.local_dt()
+        month = UZ_MONTHS.get(dt.month, str(dt.month))
+        return f"{dt.day}-{month}, {dt.year}"
+
+    def display_day_month(self) -> str:
+        dt = self.local_dt()
+        month = UZ_MONTHS.get(dt.month, str(dt.month)).lower()
+        return f"{dt.day}-{month}"
+
+    def display_time(self) -> str:
+        return self.local_dt().strftime("%H:%M")
+
+    def display_full(self) -> str:
+        return f"{self.display_date()} · soat {self.display_time()}"
+
+    def __str__(self):
+        return f"Festival: {self.display_full()} ({self.location})"
+
+
+class TelegramFSMState(models.Model):
+    """Vercel serverless muhiti uchun PostgreSQL asosidagi aiogram FSM xotirasi."""
+
+    key = models.CharField(max_length=180, primary_key=True)
+    state = models.CharField(max_length=180, null=True, blank=True)
+    data = models.JSONField(default=dict, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Bot holati (FSM)"
+        verbose_name_plural = "Bot holatlari (FSM)"
+
+    def __str__(self):
+        return f"{self.key} -> {self.state or 'idle'}"
 
 
 class Category(models.Model):
@@ -117,7 +223,9 @@ class ProjectFile(models.Model):
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="files")
     kind = models.CharField(max_length=15, choices=Kind.choices)
-    file = models.FileField(upload_to=upload_path)
+    file = models.FileField(upload_to=upload_path, blank=True, null=True)
+    telegram_file_id = models.CharField("Telegram file_id", max_length=255, blank=True, default="")
+    telegram_file_type = models.CharField("Telegram fayl turi", max_length=20, blank=True, default="")
     original_name = models.CharField(max_length=255, blank=True)
     file_size = models.PositiveIntegerField(default=0, help_text="Baytlarda")
     uploaded_at = models.DateTimeField(auto_now_add=True)
