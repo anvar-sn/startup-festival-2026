@@ -222,19 +222,25 @@ def export_excel_view(request):
 def health_check(request):
     """Yengil sog'liq tekshiruvi (Vercel va monitoring uchun)."""
     is_vercel = bool(getattr(settings, "IS_VERCEL", False))
+    engine = settings.DATABASES.get("default", {}).get("ENGINE", "")
+    db_engine = "postgresql" if "postgresql" in engine else "sqlite3"
     festival_date = getattr(settings, "FESTIVAL_DATE", "")
     db_ok = True
+    db_error = None
     try:
         cfg = FestivalSetting.get_solo()
         festival_date = cfg.display_full()
-    except Exception:
+    except Exception as exc:
         db_ok = False
+        db_error = exc.__class__.__name__
     return JsonResponse(
         {
             "status": "ok",
             "app": "Startup Festivali 2026",
             "platform": "vercel" if is_vercel else "server",
+            "db_engine": db_engine,
             "db_ok": db_ok,
+            "db_error": db_error,
             "festival_date": festival_date,
         }
     )
